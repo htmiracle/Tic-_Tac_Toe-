@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe!</title>
+  <style>
+    
+    h1{
+      font-size: 60px;
+      position: relative;
+      left: 723px;
+    }
+    #regame{
+      width: 185px;
+      height: 50px;
+      left: 750px;
+      bottom: 90px;
+      position: relative;
+      font-size: 20px;
+    }
+    #game{
+      width: 300px;
+      height: 300px;
+      border: solid 1px black;
+      position: relative;
+      left: 690px;
+      top: 50px;
+    }
+    
+    #squareTopLeft{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black; 
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareTop{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 100px;
+      bottom: 100px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareTopRight{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 200px;
+      bottom: 200px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareLeft{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      bottom: 200px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #square{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 100px;
+      bottom: 300px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareRight{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 200px;
+      bottom: 400px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareBottomLeft{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      bottom: 400px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareBottom{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 100px;
+      bottom: 500px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #squareBottomRight{
+      width: 100px;
+      height: 100px;
+      outline: solid 1px black;
+      position: relative;
+      left: 200px;
+      bottom: 600px;
+      text-align: center;
+      line-height: 100px;
+      font-size: 60px;
+    }
+    #winner{
+      width: 600px;
+      height: 50px;
+      /* outline: solid 1px black;  */
+      position: relative;
+      left:1010px;
+      bottom: 180px;
+      font-size: 30px;
+    }
+    #winnerPlayer{
+      width: 500px;
+      height: 100px;
+      /* outline: solid 1px black;  */
+      position: relative;
+      left:1000px;
+      bottom: 190px;
+      
+      font-size: 60px;
+    }
+  </style>
+</head>
+<body>
+  <h1>井字游戏</h1>
+  <div id="game"> 
+    
+      <div id="squareTopLeft" ></div>
+      <div id="squareTop"></div>
+      <div id="squareTopRight"></div>
+    
+    
+      <div id="squareLeft"></div>
+      <div id="square"></div>
+      <div id="squareRight"></div>
+    
+    
+      <div id="squareBottomLeft"></div>
+      <div id="squareBottom"></div>
+      <div id="squareBottomRight"></div> 
+    
+   </div>
+   <div id="winner" ></div>
+   <div id="winnerPlayer"></div>
+   <button id="regame">点击重新开始游戏</button>
+   <script>
+    let randomInt
+    let win = [
+      [0,1,2],[3,4,5],[6,7,8],
+      [0,3,6],[1,4,7],[2,5,8],
+      [0,4,8],[2,4,6]
+    ]
+    let playerA = []
+    let playerB = []
+    let playerFlag = 1
+    const arr = [
+      document.getElementById('squareTopLeft'),
+      document.getElementById('squareTop'),
+      document.getElementById('squareTopRight'),
+      document.getElementById('squareLeft'),
+      document.getElementById('square'),
+      document.getElementById('squareRight'),
+      document.getElementById('squareBottomLeft'),
+      document.getElementById('squareBottom'),
+      document.getElementById('squareBottomRight')
+   ]
+
+    
+    function board(){
+      for (let index = 0; index < 9; index++) {
+         
+          arr[index].onclick =()=>{
+            replay()
+            if(judge()===false&&arr[index].innerHTML === ''){
+              
+                arr[index].innerHTML='X'
+                playerA.push(index)
+                if(judge())return
+                if(draw())return
+                do {
+                  randomInt = Math.floor(Math.random() * 9)
+                } while (arr[randomInt].innerHTML!='');
+                arr[randomInt].innerHTML='O'
+                playerB.push(randomInt)
+                if(judge())return
+            }
+          }
+        }
+      }
+        
+    board()
+
+    function judge(){
+      let winner = document.getElementById('winner')
+      let winnerPlayer = document.getElementById('winnerPlayer')
+      for (let i = 0; i < 8; i++) {
+        if(win[i].every(item => playerA.includes(item)))
+          {winner.innerHTML='获胜者为';winnerPlayer.innerHTML='Player';return true}
+        if(win[i].every(item => playerB.includes(item)))
+          {winner.innerHTML='获胜者为';winnerPlayer.innerHTML='Computer';return true}
+      }
+      return false
+    }
+
+    function draw(){
+      for(let i = 0; i < 9; i++){
+        if(arr[i].innerHTML==='')return false;
+      }
+      winnerPlayer.innerHTML='平局'
+      return true;
+    }
+
+    function replay(){
+      let regame = document.getElementById('regame')
+      regame.onclick = () =>{
+        winner.innerHTML='';winnerPlayer.innerHTML='';
+        for (let index = 0; index < 9; index++) {
+          arr[index].innerHTML=''
+          playerA.splice(0, playerA.length); 
+          playerB.splice(0, playerB.length); 
+        }
+      }
+    }
+   </script>
+  
